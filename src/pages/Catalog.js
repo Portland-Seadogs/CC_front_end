@@ -22,6 +22,8 @@ export default function Catalog() {
             data.map((i) => (
                 <div key={i.item_id}>
                     {i.title}
+                    <button>Edit</button>
+                    <button>Delete</button>
                 </div>
             )
             )}
