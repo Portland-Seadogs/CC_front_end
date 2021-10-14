@@ -1,0 +1,11 @@
+.data_item{
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    &>*{
+        width: 250px;
+        // border: 1px solid;
+        height: 30px;
+        margin-top: 10px;
+    }
+}
