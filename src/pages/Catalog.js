@@ -177,7 +177,7 @@ export default function Catalog() {
                       setDataEditing(i.item_id);
                     }}
                   >
-                    Edit To Do
+                    Edit Title
                   </button>
                   <button
                     onClick={() => {

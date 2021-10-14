@@ -8,8 +8,9 @@ export default function Orders() {
 
     const [data, setData] = useState([])
 
-    const [customerId, setCustomerId] = useState("")    
-    const [time, setTime] = useState("")
+    const [nameLast, setNameLast] = useState("")    
+    const [nameFirst, setNameFirst] = useState("")
+    const [email, setEmail] = useState("")
 
     const [dataEditing, setDataEditing] = useState(null);
     const [editingText, setEditingText] = useState("");
@@ -23,7 +24,6 @@ export default function Orders() {
     }, []);
 
     function deleteData(id) {
-      // alert(id);
       axios
         .delete(
           "http://3.144.243.24:5000/users/" + id
@@ -33,12 +33,12 @@ export default function Orders() {
     
     function editData(id) {
       const body = {
-        title: editingText,
+        email: editingText,
       };
   
       axios
-        .post(
-          "http://catalogmicroservice-env.eba-twmfudba.us-east-2.elasticbeanstalk.com/api/catalog/" +
+        .put(
+          "http://3.144.243.24:5000/users/" +
             id,
           body,
           {headers: {
@@ -48,53 +48,67 @@ export default function Orders() {
         .then((response) => console.log(response));
     }
 
-    // function deleteData(id) {
-    //   alert(id);
-    //   axios
-    //     .delete(
-    //       "http://ec2-18-188-184-202.us-east-2.compute.amazonaws.com:5000/api/orders/" + id
-    //     )
-    //     .then((response) => console.log(response));
-    // }
-
-    // function sendData() {
-    //   const data = {
-    //     customer_id: customerId,
-    //     datetime_placed: time,
-    //   };
+    function sendData() {
+      const data = {
+        nameLast: nameLast,
+        nameFirst: nameFirst,
+        email: email
+      };
   
-    //   console.log(data);
-    //   axios
-    //     .post(
-    //       "http://ec2-18-188-184-202.us-east-2.compute.amazonaws.com:5000/api/orders",
-    //       data,
-    //       {headers: {
-    //         'Content-Type': 'application/json'
-    //       }}
-    //     )
-    //     .then((response) => console.log(response));
-    // }
+  
+      axios
+        .post(
+          "http://3.144.243.24:5000/users",
+          data,
+          {headers: {
+            'Content-Type': 'application/json'
+          }}
+        )
+        .then((response) => console.log(response));
+    }
 
 
     return (
       <>
       <div className="page_container">
-      <h1>USERS AND ADDRESSES</h1>
+      <h1>USERS</h1>
 
 
-      {/* <form
+      <form
           onSubmit={(e) => {
             e.preventDefault();
           }}
           autoComplete="off"
         >
           <input
-            value={customerId}
-            placeholder="customer id"
+            value={nameFirst}
+            placeholder="first name"
             onChange={(n) => {
-              setCustomerId(n.target.value);
+              setNameFirst(n.target.value);
             }}
-          ></input>                
+          >
+
+          </input>          
+
+                    <input
+            value={nameLast}
+            placeholder="last name"
+            onChange={(n) => {
+              setNameLast(n.target.value);
+            }}
+          >
+            
+          </input>   
+
+                    <input
+            value={email}
+            placeholder="email"
+            onChange={(n) => {
+              setEmail(n.target.value);
+            }}
+          >
+            
+          </input>         
           <div>
             <button
               onClick={() => {
@@ -104,7 +118,7 @@ export default function Orders() {
               Add Order
             </button>
           </div>
-        </form> */}
+        </form>
 
         {data &&        
     
@@ -116,32 +130,19 @@ export default function Orders() {
                   <div>
                     {i.nameLast} 
                   </div>
-                  <div>
-                   {i.email}
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      deleteData(i.ID);
-                    }}
-                  >
-                    Delete
-                  </button>
 
 
-
-
-
-                  {dataEditing === i.item_id ? (
+                  {dataEditing === i.ID ? (
                 <>
                   <input
                     type="text"
+                    placeholder="email"
                     onChange={(e) => setEditingText(e.target.value)}
                     value={editingText}
                   />
                   <button
                     onClick={() => {
-                      editData(i.item_id);
+                      editData(i.ID);
                       setDataEditing(null);
                       setEditingText("");
                     }}
@@ -159,17 +160,19 @@ export default function Orders() {
                 </>
               ) : (
                 <>
-                  <div>{i.title}</div>
+                <div>
+                   {i.email}
+                  </div>
                   <button
                     onClick={() => {
-                      setDataEditing(i.item_id);
+                      setDataEditing(i.ID);
                     }}
                   >
-                    Edit To Do
+                    Edit Email
                   </button>
                   <button
                     onClick={() => {
-                      deleteData(i.item_id);
+                      deleteData(i.ID);
                     }}
                   >
                     Delete
