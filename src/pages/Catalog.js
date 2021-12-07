@@ -16,12 +16,26 @@ export default function Catalog() {
   const [height, setHeight] = useState("");
   const [price, setPrice] = useState("");
 
+  
+
   useEffect(() => {
-    axios
-      .get(
-        "http://catalogmicroservice-env.eba-twmfudba.us-east-2.elasticbeanstalk.com/api/catalog"
-      )
-      .then((response) => setData(response.data));
+    const accessToken = sessionStorage.getItem('token')
+    const requestOptions = {    
+      // method: "GET",  
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    console.log(accessToken);
+
+    axios.get("http://192.168.1.24:7777/api/catalog", requestOptions)
+    // const response = fetch(
+    //     "http://192.168.1.24:7777", requestOptions
+    //   )      
+      .then((response) => 
+      {
+      console.log(response)
+      setData(response.data)
+      
+      });
   }, []);
 
   function deleteData(id) {
@@ -144,6 +158,9 @@ export default function Catalog() {
         {data &&
           data.map((i) => (
             <div className="data_item" key={i.item_id}>
+            <div className='img-container'>
+              <img className="cat-images" src={'https://cloud-computing-images-2.s3.us-east-2.amazonaws.com/' + i.img_url +'.jpg'} alt={i.img_url} />
+              </div>
               {dataEditing === i.item_id ? (
                 <>
                   <input
