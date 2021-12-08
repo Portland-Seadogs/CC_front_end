@@ -115,7 +115,7 @@ export default function Orders() {
                 sendData();
               }}
             >
-              Add Order
+              Add User
             </button>
           </div>
         </form>
