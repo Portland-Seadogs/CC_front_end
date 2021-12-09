@@ -14,7 +14,13 @@ export default function Orders() {
 
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        axios.get('https://dqpx4c28vfers.cloudfront.net/api/orders')
+        const accessToken = sessionStorage.getItem('token')
+        const requestOptions = {    
+          // method: "GET",  
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+        console.log(accessToken);
+        axios.get('https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/api/orders', requestOptions)
             .then(response => setData(response.data.result));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "../styles/users.scss";
-import Catalog from './Catalog';
+
 
   
 export default function Orders() {
@@ -18,34 +18,52 @@ export default function Orders() {
     const [editingText, setEditingText] = useState("");
 
     useEffect(() => {
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}` },
+      };      
         // GET request using axios inside useEffect React hook
-        axios.get('https://dqpx4c28vfers.cloudfront.net/api/users')
+        axios.get("http://192.168.1.24:8080/api/users", requestOptions)
+        // axios.get("https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/users", requestOptions)
             .then(response => setData(response.data));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
 
     function deleteData(id) {
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}` },
+      };     
       axios
         .delete(
-          "https://dqpx4c28vfers.cloudfront.net/api/users/" + id
-        )
+          axios.delete(
+            // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/users/" + id, 
+            "http://192.168.1.24:8080/api/users/" + id, 
+            requestOptions
+        ))
         .then((response) => console.log(response.headers));
     }
     
     function editData(id) {
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json' },
+      };     
       const body = {
         email: editingText,
       };
   
       axios
         .put(
-          "https://dqpx4c28vfers.cloudfront.net/api/users/" +
-            id,
+          // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/users/" + id
+          "http://192.168.1.24:8080/api/users/" + id,             
           body,
-          {headers: {
-            'Content-Type': 'application/json'
-          }}
+          requestOptions
         )
         .then((response) => console.log(response));
     }
@@ -56,15 +74,19 @@ export default function Orders() {
         nameFirst: nameFirst,
         email: email
       };
-  
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json' },
+      };   
   
       axios
         .post(
-          "https://dqpx4c28vfers.cloudfront.net/api/users",
+          // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/users",
+          "http://192.168.1.24:8080/api/users",
           data,
-          {headers: {
-            'Content-Type': 'application/json'
-          }}
+          requestOptions
         )
         .then((response) => console.log(response));
     }

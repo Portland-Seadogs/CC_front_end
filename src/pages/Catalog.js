@@ -25,12 +25,10 @@ export default function Catalog() {
       // method: "GET",  
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    console.log(accessToken);
+    console.log(accessToken)
 
-    axios.get("https://dqpx4c28vfers.cloudfront.net/api/catalog", requestOptions)
-    // const response = fetch(
-    //     "http://192.168.1.24:7777", requestOptions
-    //   )      
+    axios.get("https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog", requestOptions)
+
       .then((response) => 
       {
       console.log(response)
@@ -40,10 +38,15 @@ export default function Catalog() {
   }, []);
 
   function deleteData(id) {
+    const accessToken = sessionStorage.getItem('token')
+    const requestOptions = {    
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+
     axios
       .delete(
-        "https://dqpx4c28vfers.cloudfront.net/api/catalog/" +
-          id
+        "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog/" +
+          id, requestOptions
       )
       .then((response) => console.log(response));
   }
@@ -52,15 +55,19 @@ export default function Catalog() {
     const body = {
       title: editingText,
     };
+    const accessToken = sessionStorage.getItem('token')
+    const requestOptions = {    
+      headers: { Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json' },
+    };
+
 
     axios
       .post(
-        "https://dqpx4c28vfers.cloudfront.net/api/catalog/" +
+        "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog/" +
           id,
         body,
-        {headers: {
-          'Content-Type': 'application/json'
-        }}
+        requestOptions
       )
       .then((response) => console.log(response));
   }
@@ -70,21 +77,23 @@ export default function Catalog() {
       artist: artist,
       title: title,
       description: description,
-      width: width,
-      height: height,
-      price: price,
+      width: parseInt(width),
+      height: parseInt(height),
+      price: parseInt(price),
     };
 
-    console.log(data);
+    const accessToken = sessionStorage.getItem('token')
+    const requestOptions = {    
+      headers: { Authorization: `Bearer ${accessToken}` ,
+                'Content-Type': 'application/json'},
+    };
     axios
       .post(
-        "https://dqpx4c28vfers.cloudfront.net/api/catalog",
-        data, 
-        {headers: {
-          'Content-Type': 'application/json'
-        }}
-      )
-      .then((response) => console.log(response));
+        "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog", data, requestOptions)
+      .then((response) => console.log(response))
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   return (
