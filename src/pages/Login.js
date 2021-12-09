@@ -13,14 +13,22 @@ export default function Login() {
 
   useEffect(() => {
     // Update the document title using the browser API
+   
     sessionStorage.clear();
   }, []);
 
   const login = (response) => {
-    if (response.accessToken) {
+    // console.log(response)
+    if (response.accessToken) {      
       sessionStorage.setItem("token", response.accessToken);
+      // console.log(response.accessToken);
       setIsLogin(true);
     }
+    
+  };
+
+  const handleLoginFail = (response) => {
+    console.log(response)    
   };
 
   if (islogin) {
@@ -37,7 +45,7 @@ export default function Login() {
             clientId={CLIENT_ID}
             buttonText="Login"
             onSuccess={login}
-            // onFailure={handleLoginFailure}
+            onFailure={handleLoginFail}
             cookiePolicy={"single_host_origin"}
             responseType="code,token"
             isSignedIn={false}

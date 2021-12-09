@@ -25,9 +25,9 @@ export default function Catalog() {
       // method: "GET",  
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    console.log(accessToken)
+    // console.log(accessToken)
 
-    axios.get("https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog", requestOptions)
+    axios.get("https://d1ie9whvahf6ct.cloudfront.net/production/catalog", requestOptions)
 
       .then((response) => 
       {
@@ -45,7 +45,7 @@ export default function Catalog() {
 
     axios
       .delete(
-        "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog/" +
+        "https://d1ie9whvahf6ct.cloudfront.net/production/catalog/" +
           id, requestOptions
       )
       .then((response) => console.log(response));
@@ -63,8 +63,8 @@ export default function Catalog() {
 
 
     axios
-      .post(
-        "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/catalog/" +
+      .put(
+        "https://d1ie9whvahf6ct.cloudfront.net/production/catalog/" +
           id,
         body,
         requestOptions

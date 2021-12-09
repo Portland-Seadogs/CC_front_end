@@ -9,47 +9,69 @@ export default function Orders() {
 
     const [data, setData] = useState([])
 
-    const [customerId, setCustomerId] = useState("")    
-    const [time, setTime] = useState("")
+    const [customerId, setCustomerId] = useState("")   
+    
+    function getData() {
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}`,
+
+         }}   
+      axios.get(
+        'https://d1ie9whvahf6ct.cloudfront.net/production/orders', requestOptions
+        // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/orders", requestOptions
+        )
+          .then(response => setData(response.data.result.orders));
+          // .then(response => console.log(response.data.result))
+
+    }
 
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        const accessToken = sessionStorage.getItem('token')
-        const requestOptions = {    
-          // method: "GET",  
-          headers: { Authorization: `Bearer ${accessToken}` },
-        };
-        console.log(accessToken);
-        axios.get('https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/api/orders', requestOptions)
-            .then(response => setData(response.data.result));
-    
+      getData();
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
 
     function deleteData(id) {
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {             
+        headers: { Authorization: `Bearer ${accessToken}` },
+      };
+      
       axios
         .delete(
-          "https://dqpx4c28vfers.cloudfront.net/api/orders/" + id
+          "https://d1ie9whvahf6ct.cloudfront.net/production/orders/" + id, requestOptions
+          // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/orders/" + id, requestOptions
         )
-        .then((response) => console.log(response));
+        .then((response) => console.log(response))
+        .then(getData());
+
+      
     }
 
     function sendData() {
       const data = {
-        customer_id: customerId,
-        datetime_placed: time,
+        customer_id: customerId,        
+      };
+      
+      const accessToken = sessionStorage.getItem('token')
+      const requestOptions = {    
+        // method: "GET",  
+        headers: { Authorization: `Bearer ${accessToken}` },
+        'Content-Type': 'application/json'
       };
   
-      console.log(data);
+      
       axios
         .post(
-          "https://dqpx4c28vfers.cloudfront.net/api/orders",
+          "https://d1ie9whvahf6ct.cloudfront.net/production/orders",
+          // "https://ecvai6hn0l.execute-api.us-east-2.amazonaws.com/production/orders/",
           data,
-          {headers: {
-            'Content-Type': 'application/json'
-          }}
+          requestOptions
         )
-        .then((response) => console.log(response));
+        .then((response) => console.log(response))
+        .then(getData());
     }
 
     
@@ -79,13 +101,6 @@ export default function Orders() {
               setCustomerId(n.target.value);
             }}
           ></input>
-                    <input
-            value={time}
-            placeholder="time"
-            onChange={(n) => {
-              setTime(n.target.value);
-            }}
-          ></input>
 
           <div>
             <button
@@ -97,7 +112,13 @@ export default function Orders() {
             </button>
           </div>
         </form>
-
+        <div className="order">
+                  <div className="orderDetails">
+                  <div>Order Id</div>
+                  <div>Customer Id</div>
+                  <div>Date Placed</div>
+                  </div>
+            </div>
         {data &&        
     
             data.map((i) => (
