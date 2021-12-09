@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "../styles/catalog.scss";
 import "../styles/standard.scss";
+import { Link } from "react-router-dom";
 
 export default function Catalog() {
   const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ export default function Catalog() {
     };
     console.log(accessToken);
 
-    axios.get("http://192.168.1.24:7777/api/catalog", requestOptions)
+    axios.get("https://dqpx4c28vfers.cloudfront.net/api/catalog", requestOptions)
     // const response = fetch(
     //     "http://192.168.1.24:7777", requestOptions
     //   )      
@@ -41,7 +42,7 @@ export default function Catalog() {
   function deleteData(id) {
     axios
       .delete(
-        "http://catalogmicroservice-env.eba-twmfudba.us-east-2.elasticbeanstalk.com/api/catalog/" +
+        "https://dqpx4c28vfers.cloudfront.net/api/catalog/" +
           id
       )
       .then((response) => console.log(response));
@@ -54,7 +55,7 @@ export default function Catalog() {
 
     axios
       .post(
-        "http://catalogmicroservice-env.eba-twmfudba.us-east-2.elasticbeanstalk.com/api/catalog/" +
+        "https://dqpx4c28vfers.cloudfront.net/api/catalog/" +
           id,
         body,
         {headers: {
@@ -77,7 +78,7 @@ export default function Catalog() {
     console.log(data);
     axios
       .post(
-        "http://catalogmicroservice-env.eba-twmfudba.us-east-2.elasticbeanstalk.com/api/catalog",
+        "https://dqpx4c28vfers.cloudfront.net/api/catalog",
         data, 
         {headers: {
           'Content-Type': 'application/json'
@@ -89,6 +90,12 @@ export default function Catalog() {
   return (
     <>
       <div className="page_container">
+      <div className="menu">
+        <Link to="/Orders">Orders</Link>
+        <Link to="/Users">Users</Link>
+        <Link to="/Catalog">Catalog</Link>
+        <Link to="/login">Logout</Link>
+      </div>
         <h1>CATALOG</h1>
 
         <form

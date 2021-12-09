@@ -2,3 +2,21 @@
     width: 80%;
     margin: auto;
 }
+
+.menu{
+    margin-top: 50px;
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    &>*{
+        text-decoration: none;
+        
+    }
+}
+
+.login-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 50px;
+}

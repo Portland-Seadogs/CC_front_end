@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import "../styles/orders.scss";
+import { Link } from 'react-router-dom';
 
   
 export default function Orders() {
@@ -13,7 +14,7 @@ export default function Orders() {
 
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        axios.get('http://ec2-18-188-184-202.us-east-2.compute.amazonaws.com:5000/api/orders')
+        axios.get('https://dqpx4c28vfers.cloudfront.net/api/orders')
             .then(response => setData(response.data.result));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -22,7 +23,7 @@ export default function Orders() {
     function deleteData(id) {
       axios
         .delete(
-          "http://ec2-18-188-184-202.us-east-2.compute.amazonaws.com:5000/api/orders/" + id
+          "https://dqpx4c28vfers.cloudfront.net/api/orders/" + id
         )
         .then((response) => console.log(response));
     }
@@ -36,7 +37,7 @@ export default function Orders() {
       console.log(data);
       axios
         .post(
-          "http://ec2-18-188-184-202.us-east-2.compute.amazonaws.com:5000/api/orders",
+          "https://dqpx4c28vfers.cloudfront.net/api/orders",
           data,
           {headers: {
             'Content-Type': 'application/json'
@@ -50,6 +51,12 @@ export default function Orders() {
     return (
       <>
       <div className="page_container">
+      <div className="menu">
+        <Link to="/Orders">Orders</Link>
+        <Link to="/Users">Users</Link>
+        <Link to="/Catalog">Catalog</Link>
+        <Link to="/login">Logout</Link>
+      </div>
       <h1>ORDERS</h1>
 
 

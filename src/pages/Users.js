@@ -1,7 +1,9 @@
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import "../styles/users.scss";
+import Catalog from './Catalog';
 
   
 export default function Orders() {
@@ -17,7 +19,7 @@ export default function Orders() {
 
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        axios.get('http://3.144.243.24:5000/users')
+        axios.get('https://dqpx4c28vfers.cloudfront.net/api/users')
             .then(response => setData(response.data));
     
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -26,7 +28,7 @@ export default function Orders() {
     function deleteData(id) {
       axios
         .delete(
-          "http://3.144.243.24:5000/users/" + id
+          "https://dqpx4c28vfers.cloudfront.net/api/users/" + id
         )
         .then((response) => console.log(response.headers));
     }
@@ -38,7 +40,7 @@ export default function Orders() {
   
       axios
         .put(
-          "http://3.144.243.24:5000/users/" +
+          "https://dqpx4c28vfers.cloudfront.net/api/users/" +
             id,
           body,
           {headers: {
@@ -58,7 +60,7 @@ export default function Orders() {
   
       axios
         .post(
-          "http://3.144.243.24:5000/users",
+          "https://dqpx4c28vfers.cloudfront.net/api/users",
           data,
           {headers: {
             'Content-Type': 'application/json'
@@ -71,6 +73,13 @@ export default function Orders() {
     return (
       <>
       <div className="page_container">
+
+      <div className="menu">
+        <Link to="/Orders">Orders</Link>
+        <Link to="/Users">Users</Link>
+        <Link to="/Catalog">Catalog</Link>
+        <Link to="/login">Logout</Link>
+      </div>
       <h1>USERS</h1>
 
 
